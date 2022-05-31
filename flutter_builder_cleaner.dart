@@ -1,40 +1,22 @@
 import 'dart:io';
 import './const.dart';
+part 'model.dart';
 
 Future<void> main() async {
+  //
+  print('\n');
+
   //Silinecek olan klasörlerin yolu.
-  final myDir = Directory('../');
+  final myDir = Directory(AppConst.directory);
 
   //Temizlenmesi istenilen klasör adı.
-  final targetFolder = 'build';
+  final targetFolder = AppConst.targetFolder;
 
   //Flutter projesi olup olmadığını kontrol ettiğimiz dosya.
-  final targetFile = '/pubspec.yaml';
+  final targetFile = AppConst.targetFile;
 
   //Klasörlerin index ini almak için kullanılan int değer.
   int index = 0;
-
-  //Klasör silmek için kullanılan method
-  Future<void> deleteDirectory([String? index]) async {
-    final willDeletePath = '$index/$targetFolder';
-    final dir = Directory(index!);
-    var folderDir = dir.list();
-
-    //Silinmek istenilen klasörün var olup, olmadığını kontrol eden boolean
-    final checkPathIsExist = await Directory(willDeletePath).exists();
-
-    //Silinmek istenilen klasörün var olup, olmadığını kontrol eden blok
-    if (checkPathIsExist) {
-      await for (final FileSystemEntity i in folderDir) {
-        if (i is Directory && i.path == willDeletePath) {
-          await i.delete(recursive: true);
-          print('$targetFolder' + AppConst.isRemoved);
-        }
-      }
-    } else {
-      print(index + AppConst.isNotExist);
-    }
-  }
 
   //Klasörlerin adresini almak için kullanılan liste.
   List<String> _pathList = [];
@@ -46,8 +28,11 @@ Future<void> main() async {
     await for (final FileSystemEntity i in dirList) {
       if (i is Directory) {
         final checkFileIsExist = await File(i.path + targetFile).exists();
-        if (checkFileIsExist) _pathList.add(i.path);
-        index++;
+        if (checkFileIsExist) {
+          _pathList.add(i.path);
+          print('     [$index] → ' + i.path);
+          index++;
+        }
       }
     }
 
@@ -64,14 +49,14 @@ Future<void> main() async {
         print(AppConst.whichDestinationFolderDoYouWantDelete);
         int? n = int.parse(stdin.readLineSync()!);
         try {
-          await deleteDirectory(_pathList[n]);
+          await AppModel.deleteDirectory(_pathList[n], targetFolder);
         } catch (e) {
           print(targetFolder + AppConst.targetFolderIsNotFound);
         }
       } else if (answer == 'e') {
         //Cevap eğer evet ise, projelerdeki hedef klasör temizleyen blok
         for (var i = 0; i < _pathList.length; i++) {
-          await deleteDirectory(_pathList[i]);
+          await AppModel.deleteDirectory(_pathList[i], targetFolder);
         }
       } else {
         print(AppConst.wrongCommand);

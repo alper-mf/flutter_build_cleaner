@@ -1,6 +1,15 @@
 class AppConst {
   AppConst._();
 
+  //Ana klasör yolu
+  static const directory = '../';
+
+  //Temizlenmesi istenilen klasör adı.
+  static const targetFolder = 'build';
+
+  //Flutter projesi olup olmadığını kontrol ettiğimiz dosya.
+  static const targetFile = '/pubspec.yaml';
+
   ///[targetFolder] isimli projede build bulunamadı
   static const isNotExist = ' isimli projede build bulunamadı.';
 
