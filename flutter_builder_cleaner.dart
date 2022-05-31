@@ -2,10 +2,12 @@ import 'dart:io';
 import './const.dart';
 
 Future<void> main() async {
-  //Bulunduğumuz klasörü alma.
-  final myDir = Directory('./');
+  //Silinecek olan klasörlerin yolu.
+  final myDir = Directory('../');
+
   //Temizlenmesi istenilen klasör adı.
-  final targetFolder = 'sub_folder_2';
+  final targetFolder = 'build';
+
   //Klasörlerin index ini almak için kullanılan int değer.
   int index = 0;
 
@@ -21,7 +23,10 @@ Future<void> main() async {
     //Silinmek istenilen klasörün var olup, olmadığını kontrol eden blok
     if (checkPathIsExist) {
       await for (final FileSystemEntity i in folderDir) {
-        if (i is Directory && i.path == willDeletePath) await i.delete();
+        if (i is Directory && i.path == willDeletePath) {
+          await i.delete(recursive: true);
+          print('$targetFolder' + AppConst.isRemoved);
+        }
       }
     } else {
       print(index + AppConst.isNotExist);
@@ -56,7 +61,6 @@ Future<void> main() async {
       int? n = int.parse(stdin.readLineSync()!);
       try {
         await deleteDirectory(_pathList[n]);
-        print('$targetFolder' + AppConst.isRemoved);
       } catch (e) {
         print(targetFolder + AppConst.targetFolderIsNotFound);
       }
