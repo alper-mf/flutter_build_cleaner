@@ -44,8 +44,8 @@ Future<void> main() async {
       String? answer = stdin.readLineSync()!.toLowerCase();
 
       //Cevabın kontrol edildiği if blogu
-      if (answer == 'h') {
-        //Cevap eğer hayır ise, klasör seçilmesini isteye blok
+      if (answer == AppConst.no) {
+        //Cevap eğer hayır ise, klasör seçilmesini isteyen blok
         print(AppConst.whichDestinationFolderDoYouWantDelete);
         int? n = int.parse(stdin.readLineSync()!);
         try {
@@ -53,7 +53,7 @@ Future<void> main() async {
         } catch (e) {
           print(targetFolder + AppConst.targetFolderIsNotFound);
         }
-      } else if (answer == 'e') {
+      } else if (answer == AppConst.yes) {
         //Cevap eğer evet ise, projelerdeki hedef klasör temizleyen blok
         for (var i = 0; i < _pathList.length; i++) {
           await AppModel.deleteDirectory(_pathList[i], targetFolder);

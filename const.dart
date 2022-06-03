@@ -17,6 +17,12 @@ class AppConst {
   static const cleanBuildFoldersInAllProjects =
       '\nListedeki bütün projelerin build kısımlarını temizlemek ister misiniz? Komut -> E & H';
 
+  ///'Y'
+  static const yes = 'e';
+
+  ///'H'
+  static const no = 'h';
+
   ///Hangi projedeki build i temizlemek istiyorsunuz?
   static const whichDestinationFolderDoYouWantDelete =
       'Hangi projedeki build i temizlemek istiyorsunuz?';
